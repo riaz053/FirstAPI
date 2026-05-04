@@ -1,7 +1,37 @@
 using FirstApi.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+
+var key = "THIS_IS_MY_SECRET_KEY_12345"; // 🔐 keep safe in real apps
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>   // 👈 THIS options
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes("THIS_IS_MY_SECRET_KEY_12345")
+        ),
+
+        RoleClaimType = ClaimTypes.Role   // ✅ HERE
+    };
+});
 
 // Controllers
 builder.Services.AddControllers();
@@ -29,7 +59,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+
+
 // ⚠️ ORDER IS CRITICAL
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.UseSwagger();
 app.UseSwaggerUI();

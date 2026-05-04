@@ -144,3 +144,4 @@ C:\Users\saleh.riaz\FirstApi\obj\Debug\net8.0\ref\FirstApi.dll
 C:\Users\saleh.riaz\FirstApi\obj\Debug\net8.0\FirstApi.sourcelink.json
 C:\Users\saleh.riaz\FirstApi\bin\Debug\net8.0\package-lock.json
 C:\Users\saleh.riaz\FirstApi\bin\Debug\net8.0\package.json
+C:\Users\saleh.riaz\FirstApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
